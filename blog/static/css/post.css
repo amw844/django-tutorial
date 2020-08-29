@@ -1,0 +1,20 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    padding: 5px 0 10px 0;
+}
+
+.post {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: auto;
+}
+
+.post img {
+    width: 100%;
+    height: auto;
+    margin: 1em 0;
+}

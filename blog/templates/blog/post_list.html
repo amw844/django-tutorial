@@ -7,14 +7,14 @@
     <title>Blog Posts</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'css/post_list.css' %}">
 </head>
 <body>
     <h1>Recent Posts</h1>
     {% for post in posts %}
         <div class="post">
             <div class="text">
-                <h2><a href="/posts">{{ post.title }}</a></h2>
+                <h2><a href="/posts/{{post.id}}">{{ post.title }}</a></h2>
                 <span>{{post.author}} | </span>
                 <span class="date">{{post.published_date }}</span>                
                 <p></p>

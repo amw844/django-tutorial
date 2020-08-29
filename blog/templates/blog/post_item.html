@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Posts</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/post.css' %}">
+</head>
+<body>
+    <div class="post">
+        <h1>{{ post.title }}</h1>
+        <div>
+            <span>{{post.author}} | </span>
+            <span class="date">{{post.published_date }}</span>
+        </div>
+        {% if post.image_url != '' %}
+            <img src="{{ post.image_url }}"></img>
+        {% endif %}
+        <p>{{ post.text|linebreaksbr }}</p>
+        <h3><a href="/posts">Back to all posts</a></h3>
+    </div>
+</body>
+</html>
