@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Resume</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/resume.css' %}">
+</head>
+<body>
+    <h1>Create a new resume online</h1>
+    <p>Already created one? Enter its ID below to view or edit</p>
+    <form id="resume_id_form">
+        <input type="text" id="edit_resume_id" placeholder="ID" required></input>
+        <input type="submit" value="Go">
+    </form>
+    <form action="{% url 'new_resume' %}" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}            
+            <input type="submit" value="Create"></input>
+    </form>
+    </div>
+    <script>
+        const idForm = document.querySelector("#resume_id_form");
+        idForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            window.location = window.location + "/" + document.querySelector("#edit_resume_id").value;
+        });
+    </script>
+</body>
+</html>
