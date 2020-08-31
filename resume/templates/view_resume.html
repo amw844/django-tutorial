@@ -1,0 +1,164 @@
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{cv.display_name}}'s Resume</title>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="{% static 'css/resume.css' %}">
+</head>
+<body>
+    <div id="personal_information">
+        <h1>{{cv.display_name}}</h1>
+        <p>Email: {{cv.email}} | Phone: {{cv.phone_number}} | D.O.B: {{cv.date_of_birth}}</p>
+        <p>{{cv.personal_summary}}</p>
+    </div>
+    <form method="post" id="resume_form">
+        {% csrf_token %}
+        {{resume_form.as_p}}
+        {% if form.errors %}
+            <p>Errors:</p>
+            {{form.errors}}
+        {% endif %}           
+        <input type="submit" value="Save" ></input>
+    </form>
+    <button onclick="toggleEdit(this, 'resume')">Edit Personal Information</button>
+    <div class="hr"></div>
+    <h2>Education</h2>
+    <form method="post" id="education_form">
+        {% csrf_token %}
+        {{education_form.as_p}}
+        {% if form.errors %}
+            <p>Errors:</p>
+            {{form.errors}}
+        {% endif %}           
+        <input type="submit" value="Save" name="education"></input>
+    </form>
+    <button onclick="toggleEdit(this, 'education')">Edit Education Information</button>
+    {% for education in educations %}
+        <h3>{{education.school_name}}</h3>
+        <p>{{education.school_start_date}} - {{education.school_end_date}}</p>
+        <p>Best subject: <strong>{{education.best_subject}}</strong></p>
+        <form class="delete education" method="post" style="display: none;">
+            {% csrf_token %}
+            <input hidden name="delete" value="{{education.id}}">
+            <input type="submit" value="Delete" name="education">
+        </form>
+    {% endfor %}
+    <div class="hr"></div>
+    <h2>Work Experience</h2>
+    <form method="post" id="work_experience_form">
+        {% csrf_token %}
+        {{work_experience_form.as_p}}
+        {% if form.errors %}
+            <p>Errors:</p>
+            {{form.errors}}
+        {% endif %}           
+        <input type="submit" value="Save" name="work"></input>
+    </form>
+    <button onclick="toggleEdit(this, 'work')">Edit Work Experience</button>
+    {% for work_experience in work_experiences %}
+        <h3>{{work_experience.job_role_or_title}}</h3>
+        <p>{{work_experience.company}} ({{work_experience.job_start_date}} - {{work_experience.job_end_date}})</p>
+        <p>{{work_experience.job_description}}
+        <form class="delete work" method="post" style="display: none;">
+            {% csrf_token %}
+            <input hidden name="delete" value="{{work_experience.id}}">
+            <input type="submit" value="Delete" name="work">
+        </form>
+    {% endfor %}
+    <div class="hr"></div>
+    <h2>Interests and hobbies</h2>
+    <form method="post" id="hobby_form">
+        {% csrf_token %}
+        {{hobby_form.as_p}}
+        {% if form.errors %}
+            <p>Errors:</p>
+            {{form.errors}}
+        {% endif %}           
+        <input type="submit" value="Save" name="hobby"></input>
+    </form>
+    <button onclick="toggleEdit(this, 'hobby')">Edit Hobbies and Interests</button>
+    <ul>
+    {% for hobby in hobbies %}
+        <li>
+            {{hobby.interest_or_hobby}}
+            <form class="delete hobby" method="post" style="display: none;">
+                {% csrf_token %}
+                <input hidden name="delete" value="{{hobby.id}}">
+                <input type="submit" value="Delete" name="hobby">
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+    <script>
+        const resume_form = document.querySelector("#resume_form");
+        const education_form = document.querySelector("#education_form");
+        const work_form = document.querySelector("#work_form");
+        const hobby_form = document.querySelector("#hobby_form");
+
+        const toggleEdit = (button, section) => {
+            const text = button.innerText;
+            switch(section) {
+                case 'resume':
+                    if (text === "Cancel") {
+                        document.querySelector("#personal_information").style.display = "block";
+                        resume_form.style.display = "none";
+                        button.innerText = "Edit Personal Information";
+                    } else {
+                        document.querySelector("#personal_information").style.display = "none";
+                        resume_form.style.display = "block";
+                        button.innerText = "Cancel";
+                    }
+                    break;
+                case 'education':
+                    if (text === "Cancel") {
+                        education_form.style.display = "none";
+                        button.innerText = "Edit Education Information";
+                        document.querySelectorAll(".delete.education").forEach((elem) => {
+                            elem.style.display = "none";
+                        });
+                    } else {
+                        education_form.style.display = "block";
+                        button.innerText = "Cancel";
+                        document.querySelectorAll(".delete.education").forEach((elem) => {
+                            elem.style.display = "block";
+                        });
+                    }
+                    break;
+                case 'work':
+                    if (text === "Cancel") {
+                        work_experience_form.style.display = "none";
+                        button.innerText = "Edit Work Experience";
+                        document.querySelectorAll(".delete.work").forEach((elem) => {
+                            elem.style.display = "none";
+                        });
+                    } else {
+                        work_experience_form.style.display = "block";
+                        button.innerText = "Cancel";
+                        document.querySelectorAll(".delete.work").forEach((elem) => {
+                            elem.style.display = "block";
+                        });
+                    }
+                    break;
+                case 'hobby':
+                    if (text === "Cancel") {
+                        hobby_form.style.display = "none";
+                        button.innerText = "Edit Hobbies and Interests";
+                        document.querySelectorAll(".delete.hobby").forEach((elem) => {
+                            elem.style.display = "none";
+                        });
+                    } else {
+                        hobby_form.style.display = "block";
+                        button.innerText = "Cancel";
+                        document.querySelectorAll(".delete.hobby").forEach((elem) => {
+                            elem.style.display = "block";
+                        });
+                    }
+                    break;
+            }
+        }
+    </script>
+</body>
+</html>

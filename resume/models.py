@@ -3,7 +3,6 @@ from django.conf import settings
 
 # Create your models here.
 class Resume(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     email = models.EmailField()
     personal_summary = models.TextField()
     date_of_birth = models.DateField()

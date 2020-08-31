@@ -16,9 +16,22 @@
         <input type="text" id="edit_resume_id" placeholder="ID" required></input>
         <input type="submit" value="Go">
     </form>
-    <form action="{% url 'new_resume' %}" method="post">
+    <div class="hr"></div>
+    <h2>Already created</h2>
+    <ul>
+    {% for resume in resumes  %}
+        <li><a href="/resume/{{resume.id}}">{{resume.display_name}}'s Resume</a></li>
+    {% endfor %}
+    </ul>
+    <div class="hr"></div>
+    <h2>Create new</h2>
+    <form action="{% url 'new_resume' %}" method="post" id="new_resume_form">
             {% csrf_token %}
-            {{ form.as_p }}            
+            {{ form.as_p }} 
+            {% if form.errors %}
+                <p>Errors:</p>
+                {{form.errors}}
+            {% endif %}           
             <input type="submit" value="Create"></input>
     </form>
     </div>

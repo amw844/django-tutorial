@@ -1,0 +1,39 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    padding: 5px 0 10px 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    margin: auto;
+}
+
+form:not(#resume_id_form):not(#new_resume_form) {
+    display: none;
+
+    input[type=submit] {
+        display: inline-block;
+    }
+}
+
+button {
+    display: inline-block;
+    padding: 5px 20px;
+    margin-right: auto;
+}
+
+.hr {
+    margin: 10px 0;
+    display: block;
+    background-color: lightgray;
+    height: 1px; 
+
+    &:first-of-type {
+        margin: 30px 0 10px 0;
+    }
+}
